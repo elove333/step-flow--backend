@@ -15,7 +15,7 @@ This keeps the entire Step-Flow ecosystem organized and prevents errors.
 
 ## Technology Stack
 
-- **Framework**: FastAPI 0.109.0
+- **Framework**: FastAPI 0.109.1
 - **Language**: Python 3.12+
 - **Database**: MongoDB (via Motor async driver)
 - **Validation**: Pydantic v2
