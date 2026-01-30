@@ -2,6 +2,30 @@
 
 Backend API for STEPFLOW, handling authentication, session ingestion, analytics, scoring, and user progress tracking.
 
+## 🐍 Python/FastAPI Backend (NEW)
+
+**The central service for movement session analysis** - See [README_PYTHON.md](README_PYTHON.md) for complete documentation.
+
+Built with Python and FastAPI to provide a clean, predictable, and scalable foundation for:
+- ✅ Receiving movement data from mobile app
+- ✅ Validating and storing session data
+- ✅ Forwarding to AI engine for analysis
+- ✅ Maintaining organized data flow
+
+**Quick Start:**
+```bash
+pip install -r requirements.txt
+./start.sh  # or: python3 -m uvicorn main:app --reload
+```
+
+Visit `http://localhost:8000/docs` for interactive API documentation.
+
+---
+
+## 📁 Node.js/Express Backend (Folder Management)
+
+The following features are available in the Node.js implementation for folder management.
+
 ## Features
 
 - **Folder Management**: Full CRUD operations for organizing content into folders

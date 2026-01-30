@@ -15,6 +15,8 @@ class SessionService:
     def _get_collection(self):
         """Get the sessions collection."""
         db = get_database()
+        if db is None:
+            raise RuntimeError("Database connection is not available")
         return db[self.collection_name]
     
     async def create_session(

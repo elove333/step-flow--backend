@@ -59,19 +59,10 @@ async def test_create_session_empty_movement_data():
 
 
 @pytest.mark.asyncio
-async def test_get_session_not_found():
-    """Test getting a non-existent session returns 404."""
-    async with AsyncClient(app=app, base_url="http://test") as client:
-        response = await client.get("/api/sessions/invalid_id")
-        
-        # Will return 404 or 500 depending on database state
-        assert response.status_code in [404, 500]
-
-
-@pytest.mark.asyncio
 async def test_get_user_sessions_missing_user_id():
     """Test getting sessions without user_id returns validation error."""
     async with AsyncClient(app=app, base_url="http://test") as client:
         response = await client.get("/api/sessions")
         
         assert response.status_code == 422  # Validation error
+

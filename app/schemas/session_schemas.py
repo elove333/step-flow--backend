@@ -1,7 +1,7 @@
 """Pydantic schemas for movement session data validation."""
 from datetime import datetime
 from typing import List, Optional, Dict, Any
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, field_validator
 
 
 class MovementData(BaseModel):
@@ -11,8 +11,8 @@ class MovementData(BaseModel):
     y: float = Field(..., description="Y-axis acceleration/position")
     z: float = Field(..., description="Z-axis acceleration/position")
     
-    class Config:
-        json_schema_extra = {
+    model_config = {
+        "json_schema_extra": {
             "example": {
                 "timestamp": 1706659200.123,
                 "x": 0.5,
@@ -20,6 +20,7 @@ class MovementData(BaseModel):
                 "z": 0.8
             }
         }
+    }
 
 
 class SessionCreate(BaseModel):
@@ -30,15 +31,16 @@ class SessionCreate(BaseModel):
     movement_data: List[MovementData] = Field(..., description="List of movement data points", min_length=1)
     metadata: Optional[Dict[str, Any]] = Field(default=None, description="Additional metadata")
     
-    @validator('movement_data')
+    @field_validator('movement_data')
+    @classmethod
     def validate_movement_data(cls, v):
         """Validate movement data list is not empty."""
         if not v:
             raise ValueError("movement_data cannot be empty")
         return v
     
-    class Config:
-        json_schema_extra = {
+    model_config = {
+        "json_schema_extra": {
             "example": {
                 "user_id": "user_12345",
                 "session_type": "walking",
@@ -63,6 +65,7 @@ class SessionCreate(BaseModel):
                 }
             }
         }
+    }
 
 
 class SessionResponse(BaseModel):
@@ -75,8 +78,8 @@ class SessionResponse(BaseModel):
     created_at: datetime
     ai_analysis: Optional[Dict[str, Any]] = Field(default=None, description="AI analysis results")
     
-    class Config:
-        json_schema_extra = {
+    model_config = {
+        "json_schema_extra": {
             "example": {
                 "session_id": "session_abc123",
                 "user_id": "user_12345",
@@ -87,6 +90,7 @@ class SessionResponse(BaseModel):
                 "ai_analysis": None
             }
         }
+    }
 
 
 class SessionList(BaseModel):
@@ -96,8 +100,8 @@ class SessionList(BaseModel):
     page: int
     page_size: int
     
-    class Config:
-        json_schema_extra = {
+    model_config = {
+        "json_schema_extra": {
             "example": {
                 "sessions": [],
                 "total": 0,
@@ -105,6 +109,7 @@ class SessionList(BaseModel):
                 "page_size": 20
             }
         }
+    }
 
 
 class AIAnalysisRequest(BaseModel):
@@ -115,8 +120,8 @@ class AIAnalysisRequest(BaseModel):
     duration: float
     movement_data: List[MovementData]
     
-    class Config:
-        json_schema_extra = {
+    model_config = {
+        "json_schema_extra": {
             "example": {
                 "session_id": "session_abc123",
                 "user_id": "user_12345",
@@ -125,6 +130,7 @@ class AIAnalysisRequest(BaseModel):
                 "movement_data": []
             }
         }
+    }
 
 
 class AIAnalysisResponse(BaseModel):
@@ -134,8 +140,8 @@ class AIAnalysisResponse(BaseModel):
     confidence: float = Field(..., ge=0, le=1, description="Confidence score between 0 and 1")
     processing_time: float = Field(..., description="Analysis processing time in seconds")
     
-    class Config:
-        json_schema_extra = {
+    model_config = {
+        "json_schema_extra": {
             "example": {
                 "session_id": "session_abc123",
                 "analysis": {
@@ -147,3 +153,4 @@ class AIAnalysisResponse(BaseModel):
                 "processing_time": 1.23
             }
         }
+    }
