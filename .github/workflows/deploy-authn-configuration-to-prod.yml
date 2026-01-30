@@ -1,0 +1,22 @@
+# Source - https://stackoverflow.com/a/73032666
+# Posted by Sam-Sundar
+# Retrieved 2026-01-23, License - CC BY-SA 4.0
+
+name: Deploy authn configuration to prod
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download files from the current repository
+        uses: actions/checkout@v3
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+      - name: build
+        run: npm ci && npm run build
